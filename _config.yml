@@ -79,5 +79,5 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/lgckirk/lgc_blog.git
-  branch: published
+  repo: https://github.com/lgckirk/lgckirk.github.io.git
+  branch: master
