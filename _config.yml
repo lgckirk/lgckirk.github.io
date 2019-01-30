@@ -81,3 +81,10 @@ deploy:
   type: git
   repo: https://github.com/lgckirk/lgckirk.github.io.git
   branch: master
+
+# Hexo-markdown-it
+## Repo: https://github.com/hexojs/hexo-renderer-markdown-it
+markdown:
+  anchors:
+    level: 2 # Minimum level for ID creation. (Ex. h2 to h6)
+    collisionSuffix: 'v' # A suffix that is prepended to the number given if the ID is repeated
