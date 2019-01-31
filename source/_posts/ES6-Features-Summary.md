@@ -4,7 +4,7 @@ date: 2019-01-29 09:08:36
 tags:
 ---
 
-The below article is based on Luke Hoban's ES6 summary.
+The below article is built on Luke Hoban's ES6 summary.
 [Original Github repository](https://github.com/lukehoban/es6features)
 
 # ECMAScript 6
@@ -15,32 +15,32 @@ ECMAScript 6, also known as ECMAScript 2015, is the latest version of the ECMASc
 See the [ES6 standard](http://www.ecma-international.org/ecma-262/6.0/) for full specification of the ECMAScript 6 language.
 
 ES6 includes the following new features:
-- [arrows](#Arrows)
-- [classes](#Classes)
-- [enhanced object literals](#Enhanced-Object-Literals)
-- [template strings](#Template-Strings)
-- [destructuring](#Destructuring)
-- [default + rest + spread](#Default-Rest-Spread)
-- [let + const](#Let-Const)
-- [iterators + for..of](#Iterators-For-Of)
-- [generators](#Generators)
-- [unicode](#Unicode)
-- [modules](#Modules)
-- [module loaders](#Module-Loaders)
-- [map + set + weakmap + weakset](#Map-Set-WeakMap-WeakSet)
-- [proxies](#Proxies)
-- [symbols](#Symbols)
-- [subclassable built-ins](#Subclassable-Built-ins)
-- [promises](#Promises)
-- [math + number + string + array + object APIs](#Math-Number-String-Array-Object-APIs)
-- [binary and octal literals](#Binary-and-Octal-Literals)
-- [reflect api](#Reflect-API)
-- [tail calls](#Tail-Calls)
+- [arrows](#arrows)
+- [classes](#classes)
+- [enhanced object literals](#enhanced-object-literals)
+- [template strings](#template-strings)
+- [destructuring](#destructuring)
+- [default + rest + spread](#default-rest-spread)
+- [let + const](#let-const)
+- [iterators + for..of](#iterators-for-of)
+- [generators](#generators)
+- [unicode](#unicode)
+- [modules](#modules)
+- [module loaders](#module-loaders)
+- [map + set + weakmap + weakset](#map-set-weakmap-weakset)
+- [proxies](#proxies)
+- [symbols](#symbols)
+- [subclassable built-ins](#subclassable-built-ins)
+- [math + number + string + array + object APIs](#math-number-string-array-object-apis)
+- [binary and octal literals](#binary-and-octal-literals)
+- [promises](#promises)
+- [reflect api](#reflect-api)
+- [tail calls](#tail-calls)
 
 ## ECMAScript 6 Features
 
 ### Arrows
-Arrows are a function shorthand using the `=>` syntax.  They are syntactically similar to the related feature in C#, Java 8 and CoffeeScript.  They support both statement block bodies as well as expression bodies which return the value of the expression.  Unlike functions, arrows share the same lexical `this` as their surrounding code.
+Arrows are a function shorthand using the `=>` syntax.  They are syntactically similar to the related feature in C#, Java 8 and CoffeeScript.  They support both statement block bodies as well as expression bodies which return the value of the expression.  Unlike functions, arrow functions __do not have__ their own bindings to the `this`, `arguments`, `super`, `prototype` or `new.target` keywords. Therefore, they are ill suited as methods and cannot be used as constructors. Arrows share the same lexical `this` as its surrounding code.
 
 ```JavaScript
 // Expression bodies
@@ -63,6 +63,18 @@ var bob = {
       console.log(this._name + " knows " + f));
   }
 }
+
+// Rest parameters and default parameters are supported
+(param1, param2, ...rest) => { statements }
+(param1 = defaultValue1, param2, …, paramN = defaultValueN) => {
+statements }
+
+// Destructuring within the parameter list is also supported
+var f = ([a, b] = [1, 2], {x: c} = {x: a + b}) => a + b + c;
+f(); // 6
+
+// Parsing order; Note the parenthesis is necessary
+var callback = callback || (() => {});
 ```
 
 More info: [MDN Arrow Functions](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
@@ -71,8 +83,22 @@ More info: [MDN Arrow Functions](https://developer.mozilla.org/en/docs/Web/JavaS
 ES6 classes are a simple sugar over the prototype-based OO pattern.  Having a single convenient declarative form makes class patterns easier to use, and encourages interoperability.  Classes support prototype-based inheritance, super calls, instance and static methods and constructors.
 
 ```JavaScript
-class SkinnedMesh extends THREE.Mesh {
+// SkinnedMesh.prototype.__proto__ === Mesh.prototype
+class SkinnedMesh extends Mesh {
+  // public and private fields have limited native browser support
+  // but you can use it with things like babel
+
+  // public fields
+  publicField = 1;
+  pubField;
+
+  // private fields
+  #privateField = 1;
+  #priField;
+
+  // constructor is optional
   constructor(geometry, materials) {
+    // if sub-class has its own constructor, must call super() first
     super(geometry, materials);
 
     this.idMatrix = SkinnedMesh.defaultMatrix();
@@ -80,20 +106,54 @@ class SkinnedMesh extends THREE.Mesh {
     this.boneMatrices = [];
     //...
   }
+
+  // equivalent to SkinnedMesh.prototype.update = ...
   update(camera) {
     //...
     super.update();
   }
+
+  // var x = (new SkinnedMesh).boneCount; // correct
+  // x = (new SkinnedMesh).boneCount(); // console error
   get boneCount() {
     return this.bones.length;
   }
+
+  // (new SkinnedMesh).matrixType = 1; // correct
+  // (new SkinnedMesh).matrixType(1); // console error
   set matrixType(matrixType) {
     this.idMatrix = SkinnedMesh[matrixType]();
   }
+
+  // SkinnedMesh.defaultMatrix(); // correct
+  // (new SkinnedMesh).defaultMatrix(); // console error
+  // equivalent to SkinnedMesh.defaultMatrix = ...
   static defaultMatrix() {
     return new THREE.Matrix4();
   }
 }
+```
+
+Note code inside the class body is always executed in strict mode.
+
+```JavaScript
+class Animal {
+  speak() {
+    return this;
+  }
+  static eat() {
+    return this;
+  }
+}
+
+var obj = new Animal();
+obj.speak(); // Animal {}
+var speak = obj.speak;
+speak(); // undefined
+
+Animal.eat() // class Animal
+var eat = Animal.eat;
+eat(); // undefined
 ```
 
 More info: [MDN Classes](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Classes)
@@ -102,6 +162,10 @@ More info: [MDN Classes](https://developer.mozilla.org/en/docs/Web/JavaScript/Re
 Object literals are extended to support setting the prototype at construction, shorthand for `foo: foo` assignments, defining methods, making super calls, and computing property names with expressions.  Together, these also bring object literals and class declarations closer together, and let object-based design benefit from some of the same conveniences.
 
 ```JavaScript
+function handler() {
+    console.log(1);
+}
+
 var obj = {
     // __proto__
     __proto__: theProtoObj,
@@ -132,80 +196,160 @@ Template strings provide syntactic sugar for constructing strings.  This is simi
 
 // String interpolation
 var name = "Bob", time = "today";
-`Hello ${name}, how are you ${time}?`
+`Hello ${name}, how are you ${time}? Fifteen is ${10 + 5}.`
 
-// Construct an HTTP request prefix is used to interpret the replacements and construction
-POST`http://foo.org/bar?a=${a}&b=${b}
-     Content-Type: application/json
-     X-Credentials: ${credentials}
-     { "foo": ${foo},
-       "bar": ${bar}}`(myOnReadyStateChangeHandler);
+// Nested template strings
+var classes = `header ${ isLargeScreen() ? '' :
+    `icon-${item.isCollapsed ? 'expander' : 'collapser'}` }`;
+```
+
+A more advanced form of template literals are tagged templates. Tags allow you to parse template literals with a function. The first argument of a tag function contains an array of string values. The remaining arguments are related to the expressions. In the end, your function can return your manipulated string (or it can return something completely different as described in the next example). The name of the function used for the tag can be whatever you want.
+
+```JavaScript
+var person = 'Mike';
+var age = 28;
+
+function myTag(strings, personExp, ageExp) {
+  var str0 = strings[0]; // "That "
+  var str1 = strings[1]; // " is a "
+
+  // There is technically a string after
+  // the final expression (in our example),
+  // but it is empty (""), so disregard.
+  // var str2 = strings[2];
+
+  var ageStr = ageExp > 99 ?
+    'centenarian' : 'youngster';
+
+  // We can even return a string built using a template literal
+  return `${str0}${personExp}${str1}${ageStr}`;
+}
+
+var output = myTag`That ${ person } is a ${ age }`;
+console.log(output); // That Mike is a youngster
 ```
 
 More info: [MDN Template Strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings)
 
 ### Destructuring
-Destructuring allows binding using pattern matching, with support for matching arrays and objects.  Destructuring is fail-soft, similar to standard object lookup `foo["bar"]`, producing `undefined` values when not found.
+The destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.  Destructuring is fail-soft, similar to standard object lookup `foo["bar"]`, producing `undefined` values when not found.
 
 ```JavaScript
 // list matching
-var [a, , b] = [1,2,3];
+var a, b, r;
+[a, b] = [10, 20] // a == 10; b == 20
+[a, b, ...r] = [10, 20, 30, 40, 50]; // a == 10; b == 20; r = [30, 40, 50]
+[a, b] = [b, a]; // swapping a and b
+var [a=5, b=7] = [1]; // a == 1; b == 7 (default value)
 
-// object matching
-var { op: a, lhs: { op: b }, rhs: c }
-       = getASTNode()
+// list matching - ignore some value
+var [a, b] = [1, 2, 3, 4, 5]; // a == 1; b == 2
+var [a, , b] = [1, 2, 3]; // a == 1; b == 3
 
-// object matching shorthand
-// binds `op`, `lhs` and `rhs` in scope
-var {op, lhs, rhs} = getASTNode()
+// object matching (note the names must match)
+var { a, b } = { a: 10, b: 20 }; // a == 10; b == 20;
+var a, b;
+({ a, b } = { a: 10, b: 20 }); // "()" is required if declaration is not present
+({ a: foo, b: boo } = { a: 10, b: 20 }); // foo == 10; boo == 20
+({ a = 10, b = 5 } = { a: 3 }); // a == 3; b == 5 (default value)
 
-// Can be used in parameter position
-function g({name: x}) {
-  console.log(x);
+// object matching - nested
+const original = {
+    a: 'some stuff',
+    b: [ { x: 2, y: 30 } ],
+    c: true
+};
+
+let {
+    a: renameA,
+    b: [ { x: renameX } ]
+} = original; // renameA == "some stuff"; renameX: 2
+
+
+// can be used in parameter position
+function func({size = 'big', cords = {x: 0, y: 0}, radius = 25} = {}) {
+  // the right hand side of "{ ... } = {}" is only to make
+  // calling "func" without any argument valid
+  console.log(size, cords, radius);
 }
-g({name: 5})
 
-// Fail-soft destructuring
+func({
+  cords: {x: 18, y: 30},
+  radius: 30
+});
+
+// can be used as function rest parameter
+function f(...[a, b, c]) {
+  return a + b + c;
+}
+
+f(1)          // NaN (b and c are undefined)
+f(1, 2, 3)    // 6
+f(1, 2, 3, 4) // 6 (the fourth parameter is not destructured)
+
+// fail-soft destructuring
 var [a] = [];
 a === undefined;
-
-// Fail-soft destructuring with defaults
-var [a = 1] = [];
-a === 1;
 ```
 
 More info: [MDN Destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
 
 ### Default + Rest + Spread
-Callee-evaluated default parameter values.  Turn an array into consecutive arguments in a function call.  Bind trailing parameters to an array.  Rest replaces the need for `arguments` and addresses common cases more directly.
+Callee-evaluated default parameter values.  Turn an array into consecutive arguments in a function call.  Bind trailing parameters to an array.  Rest replaces the need for `arguments` and addresses common cases more directly.  Rest syntax looks exactly like spread syntax, but is used for destructuring arrays and objects. In a way, rest syntax is the opposite of spread syntax: spread 'expands' an array into its elements, while rest collects multiple elements and 'condenses' them into a single element.
 
 ```JavaScript
+// y is 12 if not passed (or passed as undefined)
 function f(x, y=12) {
-  // y is 12 if not passed (or passed as undefined)
   return x + y;
 }
 f(3) == 15
+
+// the default value is evaluated at calltime
+// so a new object is created on every call
+function append(value, array = []) {
+  array.push(value);
+  return array;
+}
+append(1); //[1]
+append(2); //[2], not [1, 2]
 ```
 ```JavaScript
+// note rest parameter must be the last parameter
 function f(x, ...y) {
-  // y is an Array
+  // y is a real Array (unlike the `arguments` object)
   return x * y.length;
 }
 f(3, "hello", true) == 6
+
+// rest parameter is always an array
+function r(a, ...args) {
+    console.log();
+}
+r(); // a == undefined; args == []
+r(1); // a == 1; args == []
+r(1, 2); // a == 1; args == [2]
+r(1, 2, 3); // a == 1; args = [2, 3]
 ```
 ```JavaScript
+// pass each element of the array as argument
 function f(x, y, z) {
   return x + y + z;
 }
-// Pass each elem of array as argument
 f(...[1,2,3]) == 6
+f(1, ...[2], 3) == 6
+
+// enhanced array literal
+var a = [1, 2];
+var b = [3, ...parts, 4, 5];  // [3, 1, 2, 4, 5]
+
+var x = [1, 2], y = [3, 4];
+var concatenateArray = [...x, ...y]; // new array: [1, 2, 3, 4]
 ```
 
 More MDN info: [Default parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters), [Rest parameters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters), [Spread Operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator)
 
 ### Let + Const
-Block-scoped binding constructs.  `let` is the new `var`.  `const` is single-assignment.  Static restrictions prevent use before assignment.
-
+Block-scoped binding constructs.  `let` is the new `var` (whose scope is the entire enclosing function).  `const` is single-assignment.  Static restrictions prevent use before assignment.
 
 ```JavaScript
 function f() {
@@ -221,12 +365,28 @@ function f() {
     let x = "inner";
   }
 }
+
+// `let` can replace some use of function closure
+{
+    let ggg = 1;
+    // ...code
+}
+console.log(ggg); // error, x is not accessible here
+
+// `let` and `const` do not create property of the global object
+var testVar = 1; // window.testVar exists
+let testLet = 1; // no window.testLet
+const testConst = 1; // no window.testConst
 ```
 
 More MDN info: [let statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let), [const statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const)
 
 ### Iterators + For..Of
-Iterator objects enable custom iteration like CLR IEnumerable or Java Iterable.  Generalize `for..in` to custom iterator-based iteration with `for..of`.  Don’t require realizing an array, enabling lazy design patterns like LINQ.
+Iterator objects enable custom iteration like CLR IEnumerable or Java Iterable.  Generalize `for..in` to custom iterator-based iteration with `for..of`.  The `for...of` statement creates a loop iterating over iterable objects, including: built-in `String`, `Array`, Array-like objects (e.g., `arguments` or `NodeList`), `TypedArray`, `Map`, `Set`, and user-defined iterables.
+
+The main difference bewteen `for..of` and `for..in` is that the former iterates over object enumerable properties (in an arbitrary order) while the later iterates over `iterable` objects (in an order defined by the iterator).
+
+Note that since generator is a subtype of iterable, you can use `for..of` loop on it. However, be aware that you cannot reuse a particular generator instance even if the `for..of` loop exits early. Once a generator instance is done, it's done. It won't return anything futher after that.
 
 ```JavaScript
 let fibonacci = {
@@ -266,11 +426,31 @@ interface Iterable {
 More info: [MDN for...of](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of)
 
 ### Generators
-Generators simplify iterator-authoring using `function*` and `yield`.  A function declared as function* returns a Generator instance.  Generators are subtypes of iterators which include additional  `next` and `throw`.  These enable values to flow back into the generator, so `yield` is an expression form which returns a value (or throws).
+Generators simplify iterator-authoring using `function*` and `yield` (as well as `yield*`).  A function declared as `function*` returns a Generator instance.  Generators are subtypes of iterators which include additional  `next` and `throw`.  These enable values to flow back into the generator, so `yield` is an expression form which returns a value (or throws).
+
+Generators in JavaScript, especially when combined with Promises, are a very powerful tool for asynchronous programming as they mitigate, if not entirely eliminate, the problems with callbacks, such as Callback Hell and Inversion of Control.
+This pattern is what `async` functions are built on top of.
 
 Note: Can also be used to enable ‘await’-like async programming, see also ES7 `await` proposal.
 
+To get a better understanding, please read its [MDN doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) in full.
+
 ```JavaScript
+// simple example
+function* generator(i) {
+    for (var x=0; x<i; x++) {
+        yield x;
+    }
+}
+
+var gen = generator(10);
+var x = gen.next();
+while (!x.done) {
+    console.log(x.value);
+    x = gen.next();
+}
+
+// with Symbol and for...of
 var fibonacci = {
   [Symbol.iterator]: function*() {
     var pre = 0, cur = 1;
