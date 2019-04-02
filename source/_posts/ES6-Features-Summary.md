@@ -2,6 +2,8 @@
 title: ES6 Features Summary
 date: 2019-01-29 09:08:36
 tags:
+- Javascript
+- ES6
 ---
 
 The below article is built on Luke Hoban's ES6 summary.
