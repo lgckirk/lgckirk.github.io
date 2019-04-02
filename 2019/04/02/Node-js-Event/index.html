@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Node.js Event | Gaochang&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="A good article to get started: Understanding Node.js Event-Driven Architecture. EventEmitter Event is one of the core concepts in Node.js. Read the official documentation. Some notes: Listeners are ca">
+<meta name="keywords" content="Node.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node.js Event">
+<meta property="og:url" content="http://yoursite.com/2019/04/02/Node-js-Event/index.html">
+<meta property="og:site_name" content="Gaochang&#39;s Blog">
+<meta property="og:description" content="A good article to get started: Understanding Node.js Event-Driven Architecture. EventEmitter Event is one of the core concepts in Node.js. Read the official documentation. Some notes: Listeners are ca">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-04-02T23:39:17.956Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node.js Event">
+<meta name="twitter:description" content="A good article to get started: Understanding Node.js Event-Driven Architecture. EventEmitter Event is one of the core concepts in Node.js. Read the official documentation. Some notes: Listeners are ca">
+  
+    <link rel="alternate" href="/atom.xml" title="Gaochang&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Gaochang&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Node-js-Event" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/02/Node-js-Event/" class="article-date">
+  <time datetime="2019-04-02T22:17:24.000Z" itemprop="datePublished">2019-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Node.js Event
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>A good article to get started: <a href="https://medium.freecodecamp.org/understanding-node-js-event-driven-architecture-223292fcbc2d" target="_blank" rel="noopener">Understanding Node.js Event-Driven Architecture</a>.</p>
+<h1>EventEmitter</h1>
+<p>Event is one of the core concepts in Node.js. Read the <a href="https://nodejs.org/api/events.html" target="_blank" rel="noopener">official documentation</a>.</p>
+<p>Some notes:</p>
+<h2 id="listeners-are-called-synchronously-in-the-order-they-were-registered">Listeners are called synchronously in the order they were registered</h2>
+<p>According to the doc:</p>
+<p>&quot;When the EventEmitter object emits an event, all of the functions attached to that specific event are called synchronously.&quot;</p>
+<p>Note it's <strong>called</strong> synchronously.</p>
+<p>See <a href="https://nodejs.org/api/events.html#events_asynchronous_vs_synchronous" target="_blank" rel="noopener">reference</a>.
+Also see <a href="https://nodejs.org/api/events.html#events_emitter_emit_eventname_args" target="_blank" rel="noopener">emitter.emit</a>.</p>
+<h2 id="this-of-a-listener-is-intentionally-set-to-the-eventemitter">&quot;this&quot; of a listener is intentionally set to the EventEmitter</h2>
+<p>Unless you use ES6 arrow function.</p>
+<p><a href="https://nodejs.org/api/events.html#events_passing_arguments_and_this_to_listeners" target="_blank" rel="noopener">Reference</a></p>
+<h2 id="the-number-of-listeners-of-an-eventemitter-has-a-soft-limit">The number of listeners of an EventEmitter has a soft limit</h2>
+<p>It will result in a warning when the limit is reached.
+<a href="https://nodejs.org/api/events.html#events_eventemitter_defaultmaxlisteners" target="_blank" rel="noopener">Reference</a>.</p>
+<p>This is to help find memory leak. You can also <a href="https://nodejs.org/api/events.html#events_emitter_setmaxlisteners_n" target="_blank" rel="noopener">set it to unlimited</a>.</p>
+<h2 id="error-is-a-special-event">&quot;error&quot; is a special event</h2>
+<p>Emitting an <code>error</code> event is like throwing exception. It will crash the program if not handled.</p>
+<h2 id="one-time-listener">One-time listener</h2>
+<p><a href="https://nodejs.org/api/events.html#events_emitter_once_eventname_listener" target="_blank" rel="noopener">One-time listeners</a> are removed before firing.</p>
+<p>That's the only special thing about them.</p>
+<p>i.e. They share the same listener queue with regular listeners.</p>
+<p>Underneath the hood, these listeners are wrapped by a wrapper function that implements the special behavior.</p>
+<p>This wrapper is used internally. For example, <code>emitter.listeners</code> will still return the original callback.
+But you can use <a href="https://nodejs.org/api/events.html#events_emitter_rawlisteners_eventname" target="_blank" rel="noopener">emitter.rawListeners</a> to get the wrapper function.</p>
+<p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> emitter = <span class="keyword">new</span> EventEmitter();</span><br><span class="line">emitter.once(<span class="string">'log'</span>, () =&gt; <span class="built_in">console</span>.log(<span class="string">'log once'</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Returns a new Array with a function `onceWrapper` which has a property</span></span><br><span class="line"><span class="comment">// `listener` which contains the original listener bound above</span></span><br><span class="line"><span class="keyword">const</span> listeners = emitter.rawListeners(<span class="string">'log'</span>);</span><br><span class="line"><span class="keyword">const</span> logFnWrapper = listeners[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Logs "log once" to the console and does not unbind the `once` event</span></span><br><span class="line">logFnWrapper.listener();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Logs "log once" to the console and removes the listener</span></span><br><span class="line">logFnWrapper();</span><br></pre></td></tr></table></figure></p>
+<h2 id="removelistener-removes-only-1-listener-at-a-time">&quot;removeListener&quot; removes only 1 listener at a time</h2>
+<p>If you added a single listener function for a single event multiple times, the most recently added one is removed.
+i.e. Not all of them are removed by a single <code>removeListener</code> call.</p>
+<p>See <a href="https://nodejs.org/api/events.html#events_emitter_removelistener_eventname_listener" target="_blank" rel="noopener">emitter.removeListener</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/02/Node-js-Event/" data-id="cju0fl3g2000142vsoirpxvpt" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/02/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ES6/">ES6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/02/Node-js-Event/">Node.js Event</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/02/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2019/01/29/ES6-Features-Summary/">ES6 Features Summary</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Gaochang Li<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
