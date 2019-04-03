@@ -9,7 +9,7 @@ Here is a good article about the stream interface in Node.js: [Node.js Streams: 
 
 Here is the official documentation for the [Stream module](https://nodejs.org/api/stream.html).
 
-There are also functions in other modules that creates/operates on streams.
+There are also functions in other modules that create/operate on streams.
 For example, the [Readline module](https://nodejs.org/api/readline.html) reads lines from a readable stream.
 
 # Stream
@@ -33,3 +33,11 @@ The easiest way to consume stream is through the `readableStream.pipe(writableSt
 If you need more flexibility for custom things, use events. 
 
 For more, refer to the article.
+
+## Modes of Readable stream
+
+Readable stream has 2 modes:
+* paused (or pull)
+* flowing (or push)
+
+For more, refer to the article and [this](https://nodejs.org/api/stream.html#stream_two_reading_modes) in the official doc.
