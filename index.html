@@ -65,6 +65,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Node-js-Stream" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/02/Node-js-Stream/" class="article-date">
+  <time datetime="2019-04-03T03:58:29.000Z" itemprop="datePublished">2019-04-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/02/Node-js-Stream/">Node.js Stream</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Here is a good article about the stream interface in Node.js: <a href="https://medium.freecodecamp.org/node-js-streams-everything-you-need-to-know-c9141306be93" target="_blank" rel="noopener">Node.js Streams: Everything you need to know</a>.</p>
+<p>Here is the official documentation for the <a href="https://nodejs.org/api/stream.html" target="_blank" rel="noopener">Stream module</a>.</p>
+<p>There are also functions in other modules that create/operate on streams.
+For example, the <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">Readline module</a> reads lines from a readable stream.</p>
+<h1>Stream</h1>
+<p>Stream is a collection of data with well defined input/output that takes/serves chunks of data.</p>
+<h2 id="types-of-stream">Types of stream</h2>
+<p>There are 4 types of streams in Node.js</p>
+<ul>
+<li><a href="https://nodejs.org/api/stream.html#stream_readable_streams" target="_blank" rel="noopener">Readable stream</a></li>
+<li><a href="https://nodejs.org/api/stream.html#stream_writable_streams" target="_blank" rel="noopener">Writable stream</a></li>
+<li><a href="https://nodejs.org/api/stream.html#stream_class_stream_duplex" target="_blank" rel="noopener">Duplex stream</a></li>
+<li><a href="https://nodejs.org/api/stream.html#stream_class_stream_transform" target="_blank" rel="noopener">Transform stream</a></li>
+</ul>
+<p>Transform stream is very similar to duplex stream. The difference, in brief, is that for duplex stream, the readable and writable (sub)streams are separate whereas for the transform stream, they are kind of one. Here is a good <a href="https://stackoverflow.com/questions/18335499/nodejs-whats-the-difference-between-a-duplex-stream-and-a-transform-stream" target="_blank" rel="noopener">stackoverflow answer</a> explaining the difference.</p>
+<h2 id="consume-streams">Consume streams</h2>
+<p>The easiest way to consume stream is through the <code>readableStream.pipe(writableStream)</code> function.</p>
+<p>If you need more flexibility for custom things, use events.</p>
+<p>For more, refer to the article.</p>
+<h2 id="modes-of-readable-stream">Modes of Readable stream</h2>
+<p>Readable stream has 2 modes:</p>
+<ul>
+<li>paused (or pull)</li>
+<li>flowing (or push)</li>
+</ul>
+<p>For more, refer to the article and <a href="https://nodejs.org/api/stream.html#stream_two_reading_modes" target="_blank" rel="noopener">this</a> in the official doc.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/02/Node-js-Stream/" data-id="cju0q9uso000325vskhubj6r8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Node-js-Event" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/02/Node-js-Event/" class="article-date">
@@ -122,7 +186,7 @@ i.e. Not all of them are removed by a single <code>removeListener</code> call.</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/Node-js-Event/" data-id="cju0fl3g2000142vsoirpxvpt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/02/Node-js-Event/" data-id="cju0q9use000025vs7o04ewad" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
@@ -174,7 +238,7 @@ i.e. Not all of them are removed by a single <code>removeListener</code> call.</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/hello-world/" data-id="cju0fl3fx000042vs4vqr6isl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/02/hello-world/" data-id="cju0q9usj000125vs8cu03k5s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -365,7 +429,7 @@ This pattern is what <code>async</code> functions are built on top of.</p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/29/ES6-Features-Summary/" data-id="cju0fl3gv000442vsctis58hu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/29/ES6-Features-Summary/" data-id="cju0q9utj000725vs1lun1oot" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li></ul>
@@ -400,7 +464,7 @@ This pattern is what <code>async</code> functions are built on top of.</p>
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a>
+      <a href="/tags/ES6/" style="font-size: 10px;">ES6</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/Node-js/" style="font-size: 20px;">Node.js</a>
     </div>
   </div>
 
@@ -420,6 +484,10 @@ This pattern is what <code>async</code> functions are built on top of.</p>
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/04/02/Node-js-Stream/">Node.js Stream</a>
+          </li>
         
           <li>
             <a href="/2019/04/02/Node-js-Event/">Node.js Event</a>
