@@ -65,6 +65,64 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Node-js-Child-Process" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/04/Node-js-Child-Process/" class="article-date">
+  <time datetime="2019-04-04T05:28:55.000Z" itemprop="datePublished">2019-04-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/04/Node-js-Child-Process/">Node.js Child Process</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Here is a good article about Node.js child process: <a href="https://medium.freecodecamp.org/node-js-child-processes-everything-you-need-to-know-e69498fe970a" target="_blank" rel="noopener">Node.js Child Processes: Everything you need to know</a>.</p>
+<p>See the official documentation for the <a href="https://nodejs.org/api/child_process.html" target="_blank" rel="noopener">Child Processes module</a>.</p>
+<p>For reference, <a href="https://nodejs.org/api/process.html" target="_blank" rel="noopener">this</a> is the official doc for the Process module, which represents the main (or parent in this context) process.
+Note <code>process</code> is a global object so you don't have to explicitly do <code>require('process')</code>.</p>
+<p>This article, however, is about child process.</p>
+<h1>Child Process</h1>
+<p>Some notes:</p>
+<h2 id="event-close-event-exit">Event 'close' != Event 'exit'</h2>
+<p>The <a href="https://nodejs.org/api/child_process.html#child_process_event_close" target="_blank" rel="noopener">close</a> event is not the same as the <a href="https://nodejs.org/api/child_process.html#child_process_event_exit" target="_blank" rel="noopener">exit</a> event.</p>
+<p>In short, 'close' is triggered when the stdio streams of a child process have been closed.
+It is distinct from the 'exit' event, since multiple processes might share the same stdio streams.</p>
+<p>The 'exit' event simply means the child process has ended, which doesn't mean its stdio streams are also closed.</p>
+<h2 id="four-child-process-creation-methods">Four child process creation methods</h2>
+<p>The 4 functions are:</p>
+<ul>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options" target="_blank" rel="noopener">spawn()</a></li>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options" target="_blank" rel="noopener">fork()</a></li>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback" target="_blank" rel="noopener">exec()</a></li>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_execfile_file_args_options_callback" target="_blank" rel="noopener">execFile()</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/04/Node-js-Child-Process/" data-id="cju291ih7000029vsolbbva14" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Node-js-Stream" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/02/Node-js-Stream/" class="article-date">
@@ -117,7 +175,7 @@ For example, the <a href="https://nodejs.org/api/readline.html" target="_blank" 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/Node-js-Stream/" data-id="cju0qfkj5000141vs4c3kmu9a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/02/Node-js-Stream/" data-id="cju291ihg000329vsx1kps7gc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
@@ -186,7 +244,7 @@ i.e. Not all of them are removed by a single <code>removeListener</code> call.</
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/Node-js-Event/" data-id="cju0qfkj0000041vsev7o3bwt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/02/Node-js-Event/" data-id="cju291ihc000129vs0zmzr00e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
@@ -379,7 +437,7 @@ This pattern is what <code>async</code> functions are built on top of.</p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/01/29/ES6-Features-Summary/" data-id="cju0qfkk5000641vs61a4uenc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/01/29/ES6-Features-Summary/" data-id="cju291ii6000929vstvgs5tq9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ES6/">ES6</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/">Javascript</a></li></ul>
@@ -434,6 +492,10 @@ This pattern is what <code>async</code> functions are built on top of.</p>
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/04/04/Node-js-Child-Process/">Node.js Child Process</a>
+          </li>
         
           <li>
             <a href="/2019/04/02/Node-js-Stream/">Node.js Stream</a>

@@ -5,20 +5,20 @@
   
 
   
-  <title>Node.js Stream | Gaochang&#39;s Blog</title>
+  <title>Node.js Child Process | Gaochang&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Here is a good article about the stream interface in Node.js: Node.js Streams: Everything you need to know. Here is the official documentation for the Stream module. There are also functions in other">
+  <meta name="description" content="Here is a good article about Node.js child process: Node.js Child Processes: Everything you need to know. See the official documentation for the Child Processes module. For reference, this is the offi">
 <meta name="keywords" content="Node.js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Node.js Stream">
-<meta property="og:url" content="http://yoursite.com/2019/04/02/Node-js-Stream/index.html">
+<meta property="og:title" content="Node.js Child Process">
+<meta property="og:url" content="http://yoursite.com/2019/04/04/Node-js-Child-Process/index.html">
 <meta property="og:site_name" content="Gaochang&#39;s Blog">
-<meta property="og:description" content="Here is a good article about the stream interface in Node.js: Node.js Streams: Everything you need to know. Here is the official documentation for the Stream module. There are also functions in other">
+<meta property="og:description" content="Here is a good article about Node.js child process: Node.js Child Processes: Everything you need to know. See the official documentation for the Child Processes module. For reference, this is the offi">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-04-04T05:32:10.574Z">
+<meta property="og:updated_time" content="2019-04-04T06:15:20.482Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Node.js Stream">
-<meta name="twitter:description" content="Here is a good article about the stream interface in Node.js: Node.js Streams: Everything you need to know. Here is the official documentation for the Stream module. There are also functions in other">
+<meta name="twitter:title" content="Node.js Child Process">
+<meta name="twitter:description" content="Here is a good article about Node.js child process: Node.js Child Processes: Everything you need to know. See the official documentation for the Child Processes module. For reference, this is the offi">
   
     <link rel="alternate" href="/atom.xml" title="Gaochang&#39;s Blog" type="application/atom+xml">
   
@@ -65,10 +65,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Node-js-Stream" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Node-js-Child-Process" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/02/Node-js-Stream/" class="article-date">
-  <time datetime="2019-04-03T03:58:29.000Z" itemprop="datePublished">2019-04-02</time>
+    <a href="/2019/04/04/Node-js-Child-Process/" class="article-date">
+  <time datetime="2019-04-04T05:28:55.000Z" itemprop="datePublished">2019-04-04</time>
 </a>
     
   </div>
@@ -79,7 +79,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Node.js Stream
+      Node.js Child Process
     </h1>
   
 
@@ -87,37 +87,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Here is a good article about the stream interface in Node.js: <a href="https://medium.freecodecamp.org/node-js-streams-everything-you-need-to-know-c9141306be93" target="_blank" rel="noopener">Node.js Streams: Everything you need to know</a>.</p>
-<p>Here is the official documentation for the <a href="https://nodejs.org/api/stream.html" target="_blank" rel="noopener">Stream module</a>.</p>
-<p>There are also functions in other modules that create/operate on streams.
-For example, the <a href="https://nodejs.org/api/readline.html" target="_blank" rel="noopener">Readline module</a> reads lines from a readable stream.</p>
-<h1>Stream</h1>
-<p>Stream is a collection of data with well defined input/output that takes/serves chunks of data.</p>
-<h2 id="types-of-stream">Types of stream</h2>
-<p>There are 4 types of streams in Node.js</p>
+        <p>Here is a good article about Node.js child process: <a href="https://medium.freecodecamp.org/node-js-child-processes-everything-you-need-to-know-e69498fe970a" target="_blank" rel="noopener">Node.js Child Processes: Everything you need to know</a>.</p>
+<p>See the official documentation for the <a href="https://nodejs.org/api/child_process.html" target="_blank" rel="noopener">Child Processes module</a>.</p>
+<p>For reference, <a href="https://nodejs.org/api/process.html" target="_blank" rel="noopener">this</a> is the official doc for the Process module, which represents the main (or parent in this context) process.
+Note <code>process</code> is a global object so you don't have to explicitly do <code>require('process')</code>.</p>
+<p>This article, however, is about child process.</p>
+<h1>Child Process</h1>
+<p>Some notes:</p>
+<h2 id="event-close-event-exit">Event 'close' != Event 'exit'</h2>
+<p>The <a href="https://nodejs.org/api/child_process.html#child_process_event_close" target="_blank" rel="noopener">close</a> event is not the same as the <a href="https://nodejs.org/api/child_process.html#child_process_event_exit" target="_blank" rel="noopener">exit</a> event.</p>
+<p>In short, 'close' is triggered when the stdio streams of a child process have been closed.
+It is distinct from the 'exit' event, since multiple processes might share the same stdio streams.</p>
+<p>The 'exit' event simply means the child process has ended, which doesn't mean its stdio streams are also closed.</p>
+<h2 id="four-child-process-creation-methods">Four child process creation methods</h2>
+<p>The 4 functions are:</p>
 <ul>
-<li><a href="https://nodejs.org/api/stream.html#stream_readable_streams" target="_blank" rel="noopener">Readable stream</a></li>
-<li><a href="https://nodejs.org/api/stream.html#stream_writable_streams" target="_blank" rel="noopener">Writable stream</a></li>
-<li><a href="https://nodejs.org/api/stream.html#stream_class_stream_duplex" target="_blank" rel="noopener">Duplex stream</a></li>
-<li><a href="https://nodejs.org/api/stream.html#stream_class_stream_transform" target="_blank" rel="noopener">Transform stream</a></li>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options" target="_blank" rel="noopener">spawn()</a></li>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_fork_modulepath_args_options" target="_blank" rel="noopener">fork()</a></li>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback" target="_blank" rel="noopener">exec()</a></li>
+<li><a href="https://nodejs.org/api/child_process.html#child_process_child_process_execfile_file_args_options_callback" target="_blank" rel="noopener">execFile()</a></li>
 </ul>
-<p>Transform stream is very similar to duplex stream. The difference, in brief, is that for duplex stream, the readable and writable (sub)streams are separate whereas for the transform stream, they are kind of one. Here is a good <a href="https://stackoverflow.com/questions/18335499/nodejs-whats-the-difference-between-a-duplex-stream-and-a-transform-stream" target="_blank" rel="noopener">stackoverflow answer</a> explaining the difference.</p>
-<h2 id="consume-streams">Consume streams</h2>
-<p>The easiest way to consume stream is through the <code>readableStream.pipe(writableStream)</code> function.</p>
-<p>If you need more flexibility for custom things, use events.</p>
-<p>For more, refer to the article.</p>
-<h2 id="modes-of-readable-stream">Modes of Readable stream</h2>
-<p>Readable stream has 2 modes:</p>
-<ul>
-<li>paused (or pull)</li>
-<li>flowing (or push)</li>
-</ul>
-<p>For more, refer to the article and <a href="https://nodejs.org/api/stream.html#stream_two_reading_modes" target="_blank" rel="noopener">this</a> in the official doc.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/02/Node-js-Stream/" data-id="cju291ihg000329vsx1kps7gc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/04/Node-js-Child-Process/" data-id="cju291ih7000029vsolbbva14" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
@@ -128,19 +122,10 @@ For example, the <a href="https://nodejs.org/api/readline.html" target="_blank" 
     
 <nav id="article-nav">
   
-    <a href="/2019/04/04/Node-js-Child-Process/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Node.js Child Process
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/02/Node-js-Event/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/04/02/Node-js-Stream/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Node.js Event</div>
+      <div class="article-nav-title">Node.js Stream</div>
     </a>
   
 </nav>
